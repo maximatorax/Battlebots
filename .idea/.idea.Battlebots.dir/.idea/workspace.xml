@@ -5,12 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65826334-397c-4e4d-8d4d-aa85793bba8e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameState.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameState.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_BBPlayerController.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_BBPlayerState.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_BotPlayer.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBAbilitySystemComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBPlayerController.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBPlayerState.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/PlayerBot.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBAbilitySystemComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerState.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/PlayerBot.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Battlebots.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/Battlebots.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_PlayerBot.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/GM_BattlebotsGM.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/GM_BattlebotsGM.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IA_MoveForwardBackward.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Inputs/IA_MoveForwardBackward.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Inputs/IMC_PlayerMappingContext.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Inputs/IMC_PlayerMappingContext.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Gyms/GYM_PlayerController.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Gyms/GYM_PlayerController.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameState.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +40,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://C:/Program Files/Epic Games/UE_5.1/Engine/Plugins/Runtime/GameplayAbilities/Intermediate/Build/Win64/UnrealEditor/Inc/GameplayAbilities/UHT/GameplayAbilitiesClasses.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Battlebots/Private/BBPlayerController.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerController.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -92,6 +117,9 @@
       <updated>1682316993574</updated>
       <workItem from="1682317041591" duration="732000" />
       <workItem from="1682317817823" duration="3099000" />
+      <workItem from="1682736442481" duration="5224000" />
+      <workItem from="1682742919672" duration="935000" />
+      <workItem from="1682743892102" duration="2697000" />
     </task>
     <servers />
   </component>

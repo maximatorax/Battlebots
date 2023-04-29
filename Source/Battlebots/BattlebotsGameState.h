@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class BATTLEBOTS_API ABattlebotsGameState : public AGameState
+class BATTLEBOTS_API ABattlebotsGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 };

@@ -3,33 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "GameplayAbilities/Public/AbilitySystemInterface.h"
-#include "GameplayAbilities/Public/AbilitySystemComponent.h"
+#include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
+#include "AbilitySystemComponent.h"
 #include "Bot.generated.h"
 
 UCLASS()
-class BATTLEBOTS_API ABot : public APawn, public IAbilitySystemInterface
+class BATTLEBOTS_API ABot : public ACharacter, public IAbilitySystemInterface
 {
 private:
 	GENERATED_BODY()
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere)
-	class USpringArmComponent* SpringArmComp;
-
-	UPROPERTY(EditAnywhere)
-	class UCameraComponent* CameraComp;
-
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* StaticMeshComp;
-
-	/** Ability System Component. Required to use Gameplay Attributes and Gameplay Abilities. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
-	UAbilitySystemComponent* AbilitySystemComponent;
 
 public:
 	// Sets default values for this pawn's properties
@@ -37,12 +20,28 @@ public:
 	
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	//~ Begin IAbilitySystemInterface
 	/** Returns our Ability System Component. */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface
+	
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	TWeakObjectPtr<class UBBAbilitySystemComponent> AbilitySystemComponent;
+	
+	// Default abilities for this Character. These will be removed on Character death and regiven if Character respawns.
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<class UGameplayAbility>> CharacterAbilities;
+
+	// Default attributes for a character for initializing on spawn/respawn.
+	// This is an instant GE that overrides the values for attributes that get reset on spawn/respawn.
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TSubclassOf<class UGameplayEffect> DefaultAttributes;
+
+	// These effects are only applied one time on startup
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<class UGameplayEffect>> StartupEffects;
 };
