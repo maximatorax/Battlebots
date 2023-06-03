@@ -10,9 +10,8 @@
 UCLASS()
 class BATTLEBOTS_API APlayerBot : public ABot
 {
+private:
 	GENERATED_BODY()
-
-private:	
 
 protected:
 	// Called when the game starts or when spawned

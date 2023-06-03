@@ -12,6 +12,8 @@ ABot::ABot()
 	PrimaryActorTick.bCanEverTick = false;
 
 	bAlwaysRelevant = true;
+
+	
 }
 
 // Called when the game starts or when spawned
