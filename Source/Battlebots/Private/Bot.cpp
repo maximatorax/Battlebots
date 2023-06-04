@@ -12,15 +12,12 @@ ABot::ABot()
 	PrimaryActorTick.bCanEverTick = false;
 
 	bAlwaysRelevant = true;
-
-	
 }
 
 // Called when the game starts or when spawned
 void ABot::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

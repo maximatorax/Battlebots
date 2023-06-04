@@ -38,7 +38,7 @@ protected:
 	FGameplayTagContainer GameplayTags;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Abilities")
-	UBBBotAttributeSet* BotAttributeSet;
+	const UBBBotAttributeSet* BotAttributeSet;
 
 public:
 	// Sets default values for this pawn's properties

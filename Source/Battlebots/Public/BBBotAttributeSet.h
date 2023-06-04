@@ -24,7 +24,7 @@ private:
 	GENERATED_BODY()
 	
 protected:
-	UPROPERTY(BlueprintReadWrite, Category = "Health", ReplicatedUsing = OnRep_Health)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Health", ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Health)
 

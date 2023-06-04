@@ -7,7 +7,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="831df0d7-70f8-4838-b59f-a61070d918ea" name="Changes" comment="" />
+    <list default="true" id="831df0d7-70f8-4838-b59f-a61070d918ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/BBBotAttributeSet.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBBotAttributeSet.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerState.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,8 +30,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -109,6 +118,7 @@
       <option name="presentableId" value="Default" />
       <updated>1685774422893</updated>
       <workItem from="1685774424325" duration="2980000" />
+      <workItem from="1685830795713" duration="2932000" />
     </task>
     <servers />
   </component>
