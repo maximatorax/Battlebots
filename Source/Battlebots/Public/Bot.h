@@ -14,13 +14,13 @@ class BATTLEBOTS_API ABot : public ACharacter, public IAbilitySystemInterface
 {
 private:
 	GENERATED_BODY()
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	TWeakObjectPtr<class UBBAbilitySystemComponent> AbilitySystemComponent;
-	
+
 	// Default abilities for this Character. These will be removed on Character death and regiven if Character respawns.
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<class UGameplayAbility>> CharacterAbilities;
@@ -38,15 +38,15 @@ protected:
 	FGameplayTagContainer GameplayTags;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Abilities")
-	const UBBBotAttributeSet* BotAttributeSet;
+	UBBBotAttributeSet* BotAttributeSet;
 
 public:
 	// Sets default values for this pawn's properties
 	ABot();
-	
+
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
-	
+
 	//~ Begin IAbilitySystemInterface
 	/** Returns our Ability System Component. */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;

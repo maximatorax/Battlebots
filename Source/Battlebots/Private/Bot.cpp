@@ -12,12 +12,16 @@ ABot::ABot()
 	PrimaryActorTick.bCanEverTick = false;
 
 	bAlwaysRelevant = true;
+
+	BotAttributeSet = CreateDefaultSubobject<UBBBotAttributeSet>(TEXT("Attributes"));
 }
 
 // Called when the game starts or when spawned
 void ABot::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	BotAttributeSet->InitHealth(100.0f);
 }
 
 // Called every frame
@@ -30,8 +34,3 @@ UAbilitySystemComponent* ABot::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent.Get();
 }
-
-
-
-
-

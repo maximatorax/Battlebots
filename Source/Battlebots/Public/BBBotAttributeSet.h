@@ -22,15 +22,13 @@ class BATTLEBOTS_API UBBBotAttributeSet : public UAttributeSet
 {
 private:
 	GENERATED_BODY()
-	
-protected:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Health", ReplicatedUsing = OnRep_Health)
-	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Health)
 
+protected:
 	UFUNCTION()
 	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
 
 public:
-	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Health", ReplicatedUsing = OnRep_Health)
+	FGameplayAttributeData Health;
+	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Health)
 };

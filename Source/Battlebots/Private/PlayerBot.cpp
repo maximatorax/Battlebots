@@ -24,14 +24,14 @@ APlayerBot::APlayerBot()
 	//Attach our components
 	SkeletalMeshComp->SetupAttachment(RootComponent);
 	SpringArmComp->SetupAttachment(SkeletalMeshComp);
-	CameraComp->SetupAttachment(SpringArmComp,USpringArmComponent::SocketName);
+	CameraComp->SetupAttachment(SpringArmComp, USpringArmComponent::SocketName);
 
 	//Assign SpringArm class variables.
 	SpringArmComp->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 50.0f), FRotator(-60.0f, 0.0f, 0.0f));
 	SpringArmComp->TargetArmLength = 400.f;
 	SpringArmComp->bEnableCameraLag = true;
 	SpringArmComp->CameraLagSpeed = 3.0f;
-	
+
 
 	//Take control of the default Player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -43,7 +43,6 @@ APlayerBot::APlayerBot()
 void APlayerBot::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -89,4 +88,3 @@ void APlayerBot::OnRep_PlayerState()
 		AbilitySystemComponent->InitAbilityActorInfo(PS, this);
 	}
 }
-

@@ -29,7 +29,7 @@ protected:
 public:
 	// Sets default values for this character's properties
 	APlayerBot();
-	
+
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
 

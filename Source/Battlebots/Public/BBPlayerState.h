@@ -18,12 +18,12 @@ class BATTLEBOTS_API ABBPlayerState : public APlayerState, public IAbilitySystem
 
 public:
 	ABBPlayerState();
-	
+
 	//~ Begin IAbilitySystemInterface
 	/** Returns our Ability System Component. */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface
-	
+
 protected:
 	/** Ability System Component. Required to use Gameplay Attributes and Gameplay Abilities. */
 	UPROPERTY()

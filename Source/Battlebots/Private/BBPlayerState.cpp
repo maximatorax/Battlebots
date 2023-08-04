@@ -4,6 +4,7 @@
 #include "BBPlayerState.h"
 #include "AbilitySystemComponent.h"
 #include "BBAbilitySystemComponent.h"
+#include "BBBotAttributeSet.h"
 
 ABBPlayerState::ABBPlayerState()
 {

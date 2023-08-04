@@ -13,5 +13,4 @@ UCLASS()
 class BATTLEBOTS_API UBBAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-	
 };
