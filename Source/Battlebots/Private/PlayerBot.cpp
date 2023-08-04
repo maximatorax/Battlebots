@@ -6,7 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "BBAbilitySystemComponent.h"
-#include "BBPlayerController.h"
+#include "Components/CapsuleComponent.h"
+#include "UObject/ConstructorHelpers.h"
 
 
 // Sets default values
@@ -27,29 +28,36 @@ APlayerBot::APlayerBot()
 	CameraComp->SetupAttachment(SpringArmComp, USpringArmComponent::SocketName);
 
 	//Assign SpringArm class variables.
-	SpringArmComp->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 50.0f), FRotator(-60.0f, 0.0f, 0.0f));
+	SpringArmComp->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 70.0f), FRotator(-60.0f, 0.0f, 0.0f));
 	SpringArmComp->TargetArmLength = 400.f;
 	SpringArmComp->bEnableCameraLag = true;
 	SpringArmComp->CameraLagSpeed = 3.0f;
 
+	//Assign Camera class variables.
+	CameraComp->FieldOfView = 80.0f;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
 	//Take control of the default Player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	AutoPossessAI = EAutoPossessAI::Disabled;
 	AIControllerClass = nullptr;
+
+	// Makes sure that the animations play on the Server so that we can use bone and socket transforms
+	// to do things like spawning projectiles and other FX.
+	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMesh()->SetCollisionProfileName(FName("NoCollision"));
 }
 
 // Called when the game starts or when spawned
 void APlayerBot::BeginPlay()
 {
 	Super::BeginPlay();
-}
 
-// Called every frame
-/*void APlayerBot::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}*/
+	StartingCameraArmLength = SpringArmComp->TargetArmLength;
+	StartingCameraLocation = SpringArmComp->GetRelativeLocation();
+}
 
 // Called to bind functionality to input
 void APlayerBot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -71,7 +79,52 @@ void APlayerBot::PossessedBy(AController* NewController)
 
 		// AI won't have PlayerControllers so we can init again here just to be sure. No harm in initing twice for heroes that have PlayerControllers.
 		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
+
+		// Set the AttributeSetBase for convenience attribute functions
+		BotAttributeSet = PS->GetBotAttributeSet();
+
+		// If we handle players disconnecting and rejoining in the future, we'll have to change this so that possession from rejoining doesn't reset attributes.
+		// For now assume possession = spawn/respawn.
+		InitializeAttributes();
+
+		
+		// Respawn specific things that won't affect first possession.
+
+		// Set Health/Mana/Stamina to their max. This is only necessary for *Respawn*.
+		SetHealth(GetMaxHealth());
+
+		// End respawn specific things
+
+
+		AddStartupEffects();
+
+		AddCharacterAbilities();
 	}
+}
+
+USpringArmComponent* APlayerBot::GetSpringArmComp()
+{
+	return SpringArmComp;
+}
+
+UCameraComponent* APlayerBot::GetCameraComp()
+{
+	return CameraComp;
+}
+
+float APlayerBot::GetStartingCameraArmLength()
+{
+	return StartingCameraArmLength;
+}
+
+FVector APlayerBot::GetStartingCameraLocation()
+{
+	return StartingCameraLocation;
+}
+
+USkeletalMeshComponent* APlayerBot::GetSkeletalMeshComp() const
+{
+	return SkeletalMeshComp;
 }
 
 void APlayerBot::OnRep_PlayerState()
@@ -86,5 +139,15 @@ void APlayerBot::OnRep_PlayerState()
 
 		// Init ASC Actor Info for clients. Server will init its ASC when it possesses a new Actor.
 		AbilitySystemComponent->InitAbilityActorInfo(PS, this);
+
+		// Set the AttributeSetBase for convenience attribute functions
+		BotAttributeSet = PS->GetBotAttributeSet();
+
+		// If we handle players disconnecting and rejoining in the future, we'll have to change this so that posession from rejoining doesn't reset attributes.
+		// For now assume possession = spawn/respawn.
+		InitializeAttributes();
+
+		// Set Health/Mana/Stamina to their max. This is only necessary for *Respawn*.
+		SetHealth(GetMaxHealth());
 	}
 }

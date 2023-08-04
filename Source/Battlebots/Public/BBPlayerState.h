@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "AttributeSet.h"
+#include "GameplayEffectTypes.h"
 #include "GameFramework/PlayerState.h"
 #include "BBPlayerState.generated.h"
 
@@ -21,11 +22,39 @@ public:
 
 	//~ Begin IAbilitySystemInterface
 	/** Returns our Ability System Component. */
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface
+	
+	class UBBBotAttributeSet* GetBotAttributeSet() const;
+
+	UFUNCTION(BlueprintCallable, Category = "BBPlayerState")
+	bool IsAlive() const;
+
+	/**
+	* Getters for attributes from GDAttributeSetBase. Returns Current Value unless otherwise specified.
+	*/
+
+	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
+	float GetMaxHealth() const;
+
 
 protected:
 	/** Ability System Component. Required to use Gameplay Attributes and Gameplay Abilities. */
 	UPROPERTY()
 	class UBBAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY()
+	UBBBotAttributeSet* BotAttributeSet;
+
+	FDelegateHandle HealthChangedDelegateHandle;
+	FDelegateHandle MaxHealthChangedDelegateHandle;
+
+	// Attribute changed callbacks
+	virtual void HealthChanged(const FOnAttributeChangeData& Data);
+	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
+
+	virtual void BeginPlay() override;
 };

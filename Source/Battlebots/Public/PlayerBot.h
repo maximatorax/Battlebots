@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Bot.h"
-#include "GameFramework/Character.h"
 #include "PlayerBot.generated.h"
 
 UCLASS()
@@ -17,27 +16,42 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, Category = "Camera")
+	float StartingCameraArmLength;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Camera")
+	FVector StartingCameraLocation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	USkeletalMeshComponent* SkeletalMeshComp;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Camera")
 	class USpringArmComponent* SpringArmComp;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Camera")
 	class UCameraComponent* CameraComp;
+
+	// Client only
+	virtual void OnRep_PlayerState() override;
 
 public:
 	// Sets default values for this character's properties
 	APlayerBot();
 
-	// Called every frame
-	//virtual void Tick(float DeltaTime) override;
-
 	// Only called on the Server. Calls before Server's AcknowledgePossession.
 	virtual void PossessedBy(AController* NewController) override;
 
-	// Client only
-	virtual void OnRep_PlayerState() override;
+	class USpringArmComponent* GetSpringArmComp();
+
+	class UCameraComponent* GetCameraComp();
+
+	UFUNCTION(BlueprintCallable, Category = "Camera")
+	float GetStartingCameraArmLength();
+
+	UFUNCTION(BlueprintCallable, Category = "Camera")
+	FVector GetStartingCameraLocation();
+
+	USkeletalMeshComponent* GetSkeletalMeshComp() const;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
