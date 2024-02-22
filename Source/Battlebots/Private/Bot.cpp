@@ -30,7 +30,7 @@ UAbilitySystemComponent* ABot::GetAbilitySystemComponent() const
 
 void ABot::RemoveCharacterAbilities()
 {
-	if (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent.IsValid() || !AbilitySystemComponent->
+	if (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent->IsValidLowLevelFast() || !AbilitySystemComponent->
 		bCharacterAbilitiesGiven)
 	{
 		return;

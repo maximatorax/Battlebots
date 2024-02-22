@@ -35,6 +35,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/ThirdParty/Steamworks/Steamworks.build.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -153,7 +156,8 @@
       <workItem from="1705618189237" duration="853000" />
       <workItem from="1705621294559" duration="114000" />
       <workItem from="1705621520095" duration="63000" />
-      <workItem from="1705621632759" duration="1783000" />
+      <workItem from="1705621632759" duration="1784000" />
+      <workItem from="1708558997651" duration="6872000" />
     </task>
     <servers />
   </component>
