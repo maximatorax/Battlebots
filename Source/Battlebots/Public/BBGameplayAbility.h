@@ -19,16 +19,16 @@ public:
 	UBBGameplayAbility();
 
 	// Abilities with this set will automatically activate when the input is pressed
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Battlebot|Ability")
 	EBBAbilityInputID AbilityInputID = EBBAbilityInputID::None;
 
 	// Value to associate an ability with an slot without tying it to an automatically activated input.
 	// Passive abilities won't be tied to an input so we need a way to generically associate abilities with slots.
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Battlebot|Ability")
 	EBBAbilityInputID AbilityID = EBBAbilityInputID::None;
 
 	// Tells an ability to activate immediately when its granted. Used for passive abilities and abilities forced on others.
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ability")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Battlebot|Ability")
 	bool ActivateAbilityOnGranted = false;
 
 	// If an ability is marked as 'ActivateAbilityOnGranted', activate them immediately when given here

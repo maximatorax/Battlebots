@@ -13,5 +13,19 @@ UCLASS()
 class BATTLEBOTS_API ABattlebotsGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	ABattlebotsGameModeBase();
+
+	void PlayerDied(AController* Controller);
+
+protected:
+	float RespawnDelay;
+	
+	TSubclassOf<class APlayerBot> PlayerBot;
+
+	virtual void BeginPlay() override;
+
+	void RespawnPlayer(AController* Controller);
 	
 };

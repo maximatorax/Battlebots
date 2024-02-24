@@ -21,12 +21,15 @@ ABBPlayerState::ABBPlayerState()
 	// Create the attribute set, this replicates by default
 	// Adding it as a subobject of the owning actor of an AbilitySystemComponent
 	// automatically registers the AttributeSet with the AbilitySystemComponent
-	BotAttributeSet = CreateDefaultSubobject<UBBBotAttributeSet>(TEXT("PlayerAttributeSet"));
+	PlayerAttributeSet = CreateDefaultSubobject<UBBBotAttributeSet>(TEXT("PlayerAttributeSet"));
 
 	// Set PlayerState's NetUpdateFrequency to the same as the Character.
 	// Default is very low for PlayerStates and introduces perceived lag in the ability system.
 	// 100 is probably way too high for a shipping game, you can adjust to fit your needs.
 	NetUpdateFrequency = 100.0f;
+
+	// Cache tags
+	DeadTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
 }
 
 UAbilitySystemComponent* ABBPlayerState::GetAbilitySystemComponent() const
@@ -36,7 +39,7 @@ UAbilitySystemComponent* ABBPlayerState::GetAbilitySystemComponent() const
 
 UBBBotAttributeSet* ABBPlayerState::GetBotAttributeSet() const
 {
-	return BotAttributeSet;
+	return PlayerAttributeSet;
 }
 
 bool ABBPlayerState::IsAlive() const
@@ -46,12 +49,12 @@ bool ABBPlayerState::IsAlive() const
 
 float ABBPlayerState::GetHealth() const
 {
-	return BotAttributeSet->GetHealth();
+	return PlayerAttributeSet->GetHealth();
 }
 
 float ABBPlayerState::GetMaxHealth() const
 {
-	return BotAttributeSet->GetMaxHealth();
+	return PlayerAttributeSet->GetMaxHealth();
 }
 
 void ABBPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
@@ -64,16 +67,31 @@ void ABBPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
 void ABBPlayerState::MaxHealthChanged(const FOnAttributeChangeData& Data)
 {
 	float MaxHealth = Data.NewValue;
+
+	APlayerBot* Player = Cast<APlayerBot>(GetPawn());
+
+	if(!IsAlive() && !AbilitySystemComponent->HasMatchingGameplayTag(DeadTag))
+	{
+		if(Player)
+		{
+			Player->Die();
+		}
+	}
 }
 
 void ABBPlayerState::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(AbilitySystemComponent)
+	if (AbilitySystemComponent)
 	{
 		// Attribute change callbacks
-		HealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BotAttributeSet->GetHealthAttribute()).AddUObject(this, &ABBPlayerState::HealthChanged);
-		MaxHealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(BotAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &ABBPlayerState::MaxHealthChanged);
+		HealthChangedDelegateHandle = AbilitySystemComponent->
+		                              GetGameplayAttributeValueChangeDelegate(PlayerAttributeSet->GetHealthAttribute()).
+		                              AddUObject(this, &ABBPlayerState::HealthChanged);
+		MaxHealthChangedDelegateHandle = AbilitySystemComponent->
+		                                 GetGameplayAttributeValueChangeDelegate(
+			                                 PlayerAttributeSet->GetMaxHealthAttribute()).AddUObject(
+			                                 this, &ABBPlayerState::MaxHealthChanged);
 	}
 }

@@ -27,17 +27,17 @@ public:
 	
 	class UBBBotAttributeSet* GetBotAttributeSet() const;
 
-	UFUNCTION(BlueprintCallable, Category = "BBPlayerState")
+	UFUNCTION(BlueprintCallable, Category = "Battlebot|PlayerState")
 	bool IsAlive() const;
 
 	/**
 	* Getters for attributes from GDAttributeSetBase. Returns Current Value unless otherwise specified.
 	*/
 
-	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
+	UFUNCTION(BlueprintCallable, Category = "Battlebot|PlayerState|Attributes")
 	float GetHealth() const;
 
-	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
+	UFUNCTION(BlueprintCallable, Category = "Battlebot|PlayerState|Attributes")
 	float GetMaxHealth() const;
 
 
@@ -47,7 +47,9 @@ protected:
 	class UBBAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY()
-	UBBBotAttributeSet* BotAttributeSet;
+	UBBBotAttributeSet* PlayerAttributeSet;
+
+	FGameplayTag DeadTag;
 
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;

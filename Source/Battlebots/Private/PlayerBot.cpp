@@ -6,8 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "BBAbilitySystemComponent.h"
+#include "Battlebots/BattlebotsGameModeBase.h"
 #include "Components/CapsuleComponent.h"
-#include "UObject/ConstructorHelpers.h"
 
 
 // Sets default values
@@ -65,6 +65,26 @@ void APlayerBot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+UAbilitySystemComponent* APlayerBot::GetAbilitySystemComponent() const
+{
+	return GetPlayerState<ABBPlayerState>()->GetAbilitySystemComponent();
+}
+
+void APlayerBot::FinishDying()
+{
+	if (GetLocalRole() == ROLE_Authority)
+	{
+		ABattlebotsGameModeBase* GM = Cast<ABattlebotsGameModeBase>(GetWorld()->GetAuthGameMode());
+
+		if (GM)
+		{
+			GM->PlayerDied(GetController());
+		}
+	}
+
+	Super::FinishDying();
+}
+
 //Server only
 void APlayerBot::PossessedBy(AController* NewController)
 {
@@ -87,7 +107,7 @@ void APlayerBot::PossessedBy(AController* NewController)
 		// For now assume possession = spawn/respawn.
 		InitializeAttributes();
 
-		
+
 		// Respawn specific things that won't affect first possession.
 
 		// Set Health/Mana/Stamina to their max. This is only necessary for *Respawn*.

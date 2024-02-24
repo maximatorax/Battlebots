@@ -50,12 +50,12 @@ public:
 	// Current Health, when 0 we expect owner to die unless prevented by an ability. Capped by MaxHealth.
 	// Positive changes can directly use this.
 	// Negative changes to Health should go through Damage meta attribute.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_Health)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Battlebot|Attributes|Health", ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Health)
 
 	// MaxHealth is its own attribute since GameplayEffects may modify it
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_MaxHealth)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Battlebot|Attributes|Health", ReplicatedUsing = OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, MaxHealth)
 };

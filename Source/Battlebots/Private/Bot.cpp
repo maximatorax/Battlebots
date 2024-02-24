@@ -4,6 +4,8 @@
 #include "Bot.h"
 #include "BBAbilitySystemComponent.h"
 #include "BBGameplayAbility.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 // Sets default values
@@ -12,9 +14,14 @@ ABot::ABot()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Overlap);
+
 	bAlwaysRelevant = true;
 
 	BotAttributeSet = CreateDefaultSubobject<UBBBotAttributeSet>(TEXT("Attributes"));
+
+	DeadTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
+	EffectRemoveOnDeathTag = FGameplayTag::RequestGameplayTag(FName("Effect.RemoveOnDeath"));
 }
 
 // Called when the game starts or when spawned
@@ -28,9 +35,14 @@ UAbilitySystemComponent* ABot::GetAbilitySystemComponent() const
 	return AbilitySystemComponent.Get();
 }
 
+bool ABot::IsAlive() const
+{
+	return GetHealth() > 0.0f;
+}
+
 void ABot::RemoveCharacterAbilities()
 {
-	if (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent->IsValidLowLevelFast() || !AbilitySystemComponent->
+	if (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent.IsValid() || !AbilitySystemComponent->
 		bCharacterAbilitiesGiven)
 	{
 		return;
@@ -78,7 +90,8 @@ void ABot::InitializeAttributes()
 
 	if (!DefaultAttributes)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s() Missing DefaultAttributes for %s. Please fill in the character's Blueprint."), *FString(__FUNCTION__), *GetName());
+		UE_LOG(LogTemp, Error, TEXT("%s() Missing DefaultAttributes for %s. Please fill in the character's Blueprint."),
+		       *FString(__FUNCTION__), *GetName());
 		return;
 	}
 
@@ -89,13 +102,15 @@ void ABot::InitializeAttributes()
 	FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributes, 1, EffectContext);
 	if (NewHandle.IsValid())
 	{
-		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent.Get());
+		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(
+			*NewHandle.Data.Get(), AbilitySystemComponent.Get());
 	}
 }
 
 void ABot::AddStartupEffects()
 {
-	if (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent.IsValid() || AbilitySystemComponent->bStartupEffectsApplied)
+	if (GetLocalRole() != ROLE_Authority || !AbilitySystemComponent.IsValid() || AbilitySystemComponent->
+		bStartupEffectsApplied)
 	{
 		return;
 	}
@@ -105,10 +120,12 @@ void ABot::AddStartupEffects()
 
 	for (TSubclassOf<UGameplayEffect> GameplayEffect : StartupEffects)
 	{
-		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(GameplayEffect, 1, EffectContext);
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->
+			MakeOutgoingSpec(GameplayEffect, 1, EffectContext);
 		if (NewHandle.IsValid())
 		{
-			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent.Get());
+			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(
+				*NewHandle.Data.Get(), AbilitySystemComponent.Get());
 		}
 	}
 
@@ -135,10 +152,47 @@ float ABot::GetMaxHealth() const
 	return 0.0f;
 }
 
+void ABot::Die()
+{
+	RemoveCharacterAbilities();
+
+	GetCapsuleComponent()->SetCollisionEnabled((ECollisionEnabled::NoCollision));
+	GetCharacterMovement()->GravityScale = 0;
+	GetCharacterMovement()->Velocity = FVector(0);
+
+	OnCharacterDied.Broadcast(this);
+
+	if(AbilitySystemComponent.IsValid())
+	{
+		AbilitySystemComponent->CancelAllAbilities();
+
+		FGameplayTagContainer EffectTagsToRemove;
+		EffectTagsToRemove.AddTag(EffectRemoveOnDeathTag);
+		int32 NumEffectsRemoved = AbilitySystemComponent->RemoveActiveEffectsWithTags(EffectTagsToRemove);
+
+		AbilitySystemComponent->AddLooseGameplayTag(DeadTag);
+	}
+
+	FinishDying();
+}
+
+void ABot::FinishDying()
+{
+	Destroy();
+}
+
 void ABot::SetHealth(float Health)
 {
 	if (BotAttributeSet.IsValid())
 	{
 		BotAttributeSet->SetHealth(Health);
+	}
+}
+
+void ABot::SetMaxHealth(float MaxHealth)
+{
+	if (BotAttributeSet.IsValid())
+	{
+		BotAttributeSet->SetMaxHealth(MaxHealth);
 	}
 }

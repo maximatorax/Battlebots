@@ -9,7 +9,7 @@ public class Battlebots : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[]
-			{ "Core", "CoreUObject", "Engine", "InputCore", "GameplayAbilities", "GameplayTags", "GameplayTasks", "OnlineSubsystemSteam" });
+			{ "Core", "CoreUObject", "Engine", "InputCore", "GameplayAbilities", "GameplayTags", "GameplayTasks", "OnlineSubsystemSteam", "UMG" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 

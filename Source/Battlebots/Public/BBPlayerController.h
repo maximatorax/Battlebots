@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Bot.h"
 #include "BBPlayerController.generated.h"
 
 /**
@@ -13,5 +14,27 @@ UCLASS()
 class BATTLEBOTS_API ABBPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	void CreateHUD();
+
+	class UBBHUDWidget* GetHUD();
 	
+	// Simple way to RPC to the client the countdown until they respawn from the GameMode. Will be latency amount of out sync with the Server.
+	UFUNCTION(Client, Reliable, WithValidation)
+	void SetRespawnCountdown(float RespawnTimeRemaining);
+	void SetRespawnCountdown_Implementation(float RespawnTimeRemaining);
+	bool SetRespawnCountdown_Validate(float RespawnTimeRemaining);
+
+protected:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Battlebot|UI")
+	TSubclassOf<class UBBHUDWidget> UIHUDWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Battlebot|UI")
+	class UBBHUDWidget* UIHUDWidget;
+	
+	// Server only
+	virtual void OnPossess(APawn* InPawn) override;
+
+	virtual void OnRep_PlayerState() override;
 };

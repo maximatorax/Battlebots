@@ -41,9 +41,9 @@ public:
 	// Only called on the Server. Calls before Server's AcknowledgePossession.
 	virtual void PossessedBy(AController* NewController) override;
 
-	class USpringArmComponent* GetSpringArmComp();
+	USpringArmComponent* GetSpringArmComp();
 
-	class UCameraComponent* GetCameraComp();
+	UCameraComponent* GetCameraComp();
 
 	UFUNCTION(BlueprintCallable, Category = "Camera")
 	float GetStartingCameraArmLength();
@@ -55,4 +55,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	virtual void FinishDying() override;
 };
