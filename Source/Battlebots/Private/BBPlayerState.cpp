@@ -5,6 +5,8 @@
 #include "AbilitySystemComponent.h"
 #include "BBAbilitySystemComponent.h"
 #include "BBBotAttributeSet.h"
+#include "BBHUDWidget.h"
+#include "BBPlayerController.h"
 #include "PlayerBot.h"
 #include "Util/ColorConstants.h"
 
@@ -57,28 +59,6 @@ float ABBPlayerState::GetMaxHealth() const
 	return PlayerAttributeSet->GetMaxHealth();
 }
 
-void ABBPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
-{
-	float Health = Data.NewValue;
-
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("%f"), Data.NewValue));
-}
-
-void ABBPlayerState::MaxHealthChanged(const FOnAttributeChangeData& Data)
-{
-	float MaxHealth = Data.NewValue;
-
-	APlayerBot* Player = Cast<APlayerBot>(GetPawn());
-
-	if(!IsAlive() && !AbilitySystemComponent->HasMatchingGameplayTag(DeadTag))
-	{
-		if(Player)
-		{
-			Player->Die();
-		}
-	}
-}
-
 void ABBPlayerState::BeginPlay()
 {
 	Super::BeginPlay();
@@ -93,5 +73,34 @@ void ABBPlayerState::BeginPlay()
 		                                 GetGameplayAttributeValueChangeDelegate(
 			                                 PlayerAttributeSet->GetMaxHealthAttribute()).AddUObject(
 			                                 this, &ABBPlayerState::MaxHealthChanged);
+	}
+}
+
+void ABBPlayerState::HealthChanged(const FOnAttributeChangeData& Data)
+{
+	float Health = Data.NewValue;
+
+	APlayerBot* Player = Cast<APlayerBot>(GetPawn());
+	
+	if(!IsAlive() && !AbilitySystemComponent->HasMatchingGameplayTag(DeadTag))
+	{
+		if(Player)
+		{
+			Player->Die();
+		}
+	}
+}
+
+void ABBPlayerState::MaxHealthChanged(const FOnAttributeChangeData& Data)
+{
+	float MaxHealth = Data.NewValue;
+
+	//Update the HUD
+	if(ABBPlayerController* PC = Cast<ABBPlayerController>(GetOwner()))
+	{
+		if(UBBHUDWidget* HUD = PC->GetHUD())
+		{
+			HUD->SetMaxHealth((MaxHealth));
+		}
 	}
 }

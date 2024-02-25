@@ -29,13 +29,12 @@ void ABattlebotsGameModeBase::PlayerDied(AController* Controller)
 	Controller->Possess(SpectatorPawn);
 
 	FTimerHandle RespawnTimerHandle;
-	FTimerDelegate RespawnDelegate;
 
-	RespawnDelegate = FTimerDelegate::CreateUObject(this, &ABattlebotsGameModeBase::RespawnPlayer, Controller);
+	FTimerDelegate RespawnDelegate = FTimerDelegate::CreateUObject(this, &ABattlebotsGameModeBase::RespawnPlayer,
+	                                                               Controller);
 	GetWorldTimerManager().SetTimer(RespawnTimerHandle, RespawnDelegate, RespawnDelay, false);
 
-	ABBPlayerController* PC = Cast<ABBPlayerController>(Controller);
-	if (PC)
+	if (ABBPlayerController* PC = Cast<ABBPlayerController>(Controller))
 	{
 		PC->SetRespawnCountdown(RespawnDelay);
 	}

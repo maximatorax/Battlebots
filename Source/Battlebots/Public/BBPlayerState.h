@@ -54,9 +54,12 @@ protected:
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;
 
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 	// Attribute changed callbacks
 	virtual void HealthChanged(const FOnAttributeChangeData& Data);
 	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
 
-	virtual void BeginPlay() override;
+	
 };

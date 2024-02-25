@@ -9,21 +9,6 @@
 #define GET_ACTOR_ROLE_FSTRING(Actor) *(FindObject<UEnum>(nullptr, TEXT("/Script/Engine.ENetRole"), true)->GetNameStringByValue(Actor->GetLocalRole()))
 
 UENUM(BlueprintType)
-enum class EBBHitReactDirection : uint8
-{
-	// 0
-	None			UMETA(DisplayName = "None"),
-	// 1
-	Left 			UMETA(DisplayName = "Left"),
-	// 2
-	Front 			UMETA(DisplayName = "Front"),
-	// 3
-	Right			UMETA(DisplayName = "Right"),
-	// 4
-	Back			UMETA(DisplayName = "Back")
-};
-
-UENUM(BlueprintType)
 enum class EBBAbilityInputID : uint8
 {
 	// 0 None

@@ -24,12 +24,6 @@ ABot::ABot()
 	EffectRemoveOnDeathTag = FGameplayTag::RequestGameplayTag(FName("Effect.RemoveOnDeath"));
 }
 
-// Called when the game starts or when spawned
-void ABot::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 UAbilitySystemComponent* ABot::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent.Get();
@@ -38,6 +32,17 @@ UAbilitySystemComponent* ABot::GetAbilitySystemComponent() const
 bool ABot::IsAlive() const
 {
 	return GetHealth() > 0.0f;
+}
+
+int32 ABot::GetAbilityLevel(EBBAbilityInputID AbilityID) const
+{
+	return 
+}
+
+// Called when the game starts or when spawned
+void ABot::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void ABot::RemoveCharacterAbilities()
