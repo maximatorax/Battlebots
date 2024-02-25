@@ -17,8 +17,16 @@ class BATTLEBOTS_API ABBPlayerController : public APlayerController
 
 public:
 	void CreateHUD();
+	
+	UPROPERTY(EditAnywhere, Category = "Batlebot|UI")
+	TSubclassOf<class UBBDamageTextWidgetComponent> DamageNumberClass;
 
 	class UBBHUDWidget* GetHUD();
+
+	UFUNCTION(Client, Reliable, WithValidation)
+	void ShowDamageNumber(float DamageAmount, ABot* TargetCharacter);
+	void ShowDamageNumber_Implementation(float DamageAmount, ABot* TargetCharacter);
+	bool ShowDamageNumber_Validate(float DamageAmount, ABot* TargetCharacter);
 	
 	// Simple way to RPC to the client the countdown until they respawn from the GameMode. Will be latency amount of out sync with the Server.
 	UFUNCTION(Client, Reliable, WithValidation)

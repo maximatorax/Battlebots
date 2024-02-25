@@ -20,8 +20,34 @@ GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 UCLASS()
 class BATTLEBOTS_API UBBBotAttributeSet : public UAttributeSet
 {
-private:
 	GENERATED_BODY()
+
+public:
+	UBBBotAttributeSet();
+	
+	// AttributeSet Overrides
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	// Current Health, when 0 we expect owner to die unless prevented by an ability. Capped by MaxHealth.
+	// Positive changes can directly use this.
+	// Negative changes to Health should go through Damage meta attribute.
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_Health)
+	FGameplayAttributeData Health;
+	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Health)
+
+	// MaxHealth is its own attribute since GameplayEffects may modify it
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_MaxHealth)
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, MaxHealth)
+
+	// Damage is a meta attribute used by the DamageExecution to calculate final damage, which then turns into -Health
+	// Temporary value that only exists on the Server. Not replicated.
+	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	FGameplayAttributeData Damage;
+	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Damage)
 
 protected:
 	// Helper function to proportionally adjust the value of an attribute when it's associated max attribute changes.
@@ -39,23 +65,5 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
-
-public:
-	// AttributeSet Overrides
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
-	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-	// Current Health, when 0 we expect owner to die unless prevented by an ability. Capped by MaxHealth.
-	// Positive changes can directly use this.
-	// Negative changes to Health should go through Damage meta attribute.
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Battlebot|Attributes|Health", ReplicatedUsing = OnRep_Health)
-	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, Health)
-
-	// MaxHealth is its own attribute since GameplayEffects may modify it
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Battlebot|Attributes|Health", ReplicatedUsing = OnRep_MaxHealth)
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UBBBotAttributeSet, MaxHealth)
+	
 };

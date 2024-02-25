@@ -2,38 +2,17 @@
 
 
 #include "BBBotAttributeSet.h"
+
+#include "BBGameplayEffect.h"
 #include "BBPlayerController.h"
 #include "Bot.h"
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
-void UBBBotAttributeSet::AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute,
-                                                     const FGameplayAttributeData& MaxAttribute, float NewMaxValue,
-                                                     const FGameplayAttribute& AffectedAttributeProperty)
+UBBBotAttributeSet::UBBBotAttributeSet()
 {
-	UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent();
-	const float CurrentMaxValue = MaxAttribute.GetCurrentValue();
-	if (!FMath::IsNearlyEqual(CurrentMaxValue, NewMaxValue) && AbilityComp)
-	{
-		// Change current value to maintain the current Val / Max percent
-		const float CurrentValue = AffectedAttribute.GetCurrentValue();
-		float NewDelta = (CurrentMaxValue > 0.f)
-			                 ? (CurrentValue * NewMaxValue / CurrentMaxValue) - CurrentValue
-			                 : NewMaxValue;
-
-		AbilityComp->ApplyModToAttributeUnsafe(AffectedAttributeProperty, EGameplayModOp::Additive, NewDelta);
-	}
-}
-
-void UBBBotAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, Health, OldHealth);
-}
-
-void UBBBotAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, MaxHealth, OldMaxHealth);
+	//Cache tags
 }
 
 void UBBBotAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -101,6 +80,89 @@ void UBBBotAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 			SourceActor = Context.GetEffectCauser();
 		}
 	}
+
+	if (Data.EvaluatedData.Attribute == GetDamageAttribute())
+	{
+		//Try to extract a hit result
+		FHitResult HitResult;
+		if (Context.GetHitResult())
+		{
+			HitResult = *Context.GetHitResult();
+		}
+
+		// Store a local copy of the amount of damage done and clear the damage attribute
+		const float LocalDamageDone = GetDamage();
+		SetDamage(0.f);
+
+		if (LocalDamageDone > 0.0f)
+		{
+			// If character was alive before damage is added, handle damage
+			// This prevents damage being added to dead things and replaying death animations
+			bool WasAlive = true;
+
+			if (TargetCharacter)
+			{
+				WasAlive = TargetCharacter->IsAlive();
+			}
+
+			if (!TargetCharacter->IsAlive())
+			{
+				//UE_LOG(LogTemp, Warning, TEXT("%s() %s is NOT alive when receiving damage"), TEXT(__FUNCTION__), *TargetCharacter->GetName());
+			}
+
+			// Apply the health change and then clamp it
+			const float NewHealth = GetHealth() - LocalDamageDone;
+			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+			if (TargetCharacter && WasAlive)
+			{
+				// This is the log statement for damage received. Turned off for live games.
+				//UE_LOG(LogTemp, Log, TEXT("%s() %s Damage Received: %f"), TEXT(__FUNCTION__), *GetOwningActor()->GetName(), LocalDamageDone);
+
+				// Play HitReact animation and sound with a multicast RPC.
+				const FHitResult* Hit = Data.EffectSpec.GetContext().GetHitResult();
+
+				if (Hit)
+				{
+					//Play Hit Reaction depending on hit result here.
+				}
+				else
+				{
+					// No hit result. Default hit result.
+				}
+
+				// Show damage number for the Source player unless it was self damage
+				if (SourceActor != TargetActor)
+				{
+					ABBPlayerController* PC = Cast<ABBPlayerController>(SourceController);
+					if (PC)
+					{
+						PC->ShowDamageNumber(LocalDamageDone, TargetCharacter);
+					}
+				}
+
+				if (!TargetCharacter->IsAlive())
+				{
+					// TargetCharacter was alive before this damage and now is not alive, give XP and Gold bounties to Source.
+					// Don't give bounty to self.
+					if (SourceController != TargetController)
+					{
+						// Create a dynamic instant Gameplay Effect to give the bounties
+						UBBGameplayEffect* GEBounty = NewObject<UBBGameplayEffect>(GetTransientPackage(), FName(TEXT("Bounty")));
+						GEBounty->DurationPolicy = EGameplayEffectDurationType::Instant;
+
+						Source->ApplyGameplayEffectToSelf(GEBounty, 1.0f, Source->MakeEffectContext());
+					}
+				}
+			}
+		}
+	}//Damage
+	else if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		// Handle other health changes.
+		// Health loss should go through Damage.
+		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
+	}// Health
 }
 
 void UBBBotAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -109,4 +171,32 @@ void UBBBotAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UBBBotAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UBBBotAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+}
+
+void UBBBotAttributeSet::AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute,
+                                                     const FGameplayAttributeData& MaxAttribute, float NewMaxValue,
+                                                     const FGameplayAttribute& AffectedAttributeProperty)
+{
+	UAbilitySystemComponent* AbilityComp = GetOwningAbilitySystemComponent();
+	const float CurrentMaxValue = MaxAttribute.GetCurrentValue();
+	if (!FMath::IsNearlyEqual(CurrentMaxValue, NewMaxValue) && AbilityComp)
+	{
+		// Change current value to maintain the current Val / Max percent
+		const float CurrentValue = AffectedAttribute.GetCurrentValue();
+		float NewDelta = (CurrentMaxValue > 0.f)
+			                 ? (CurrentValue * NewMaxValue / CurrentMaxValue) - CurrentValue
+			                 : NewMaxValue;
+
+		AbilityComp->ApplyModToAttributeUnsafe(AffectedAttributeProperty, EGameplayModOp::Additive, NewDelta);
+	}
+}
+
+void UBBBotAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, Health, OldHealth);
+}
+
+void UBBBotAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, MaxHealth, OldMaxHealth);
 }

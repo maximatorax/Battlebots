@@ -4,6 +4,7 @@
 #include "Bot.h"
 #include "BBAbilitySystemComponent.h"
 #include "BBGameplayAbility.h"
+#include "BBGameplayEffect.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -36,13 +37,7 @@ bool ABot::IsAlive() const
 
 int32 ABot::GetAbilityLevel(EBBAbilityInputID AbilityID) const
 {
-	return 
-}
-
-// Called when the game starts or when spawned
-void ABot::BeginPlay()
-{
-	Super::BeginPlay();
+	return 1;
 }
 
 void ABot::RemoveCharacterAbilities()
@@ -68,6 +63,61 @@ void ABot::RemoveCharacterAbilities()
 	}
 
 	AbilitySystemComponent->bCharacterAbilitiesGiven = false;
+}
+
+float ABot::GetHealth() const
+{
+	if (BotAttributeSet.IsValid())
+	{
+		return BotAttributeSet->GetHealth();
+	}
+
+	return 0.0f;
+}
+
+float ABot::GetMaxHealth() const
+{
+	if (BotAttributeSet.IsValid())
+	{
+		return BotAttributeSet->GetMaxHealth();
+	}
+
+	return 0.0f;
+}
+
+void ABot::Die()
+{
+	RemoveCharacterAbilities();
+
+	GetCapsuleComponent()->SetCollisionEnabled((ECollisionEnabled::NoCollision));
+	GetCharacterMovement()->GravityScale = 0;
+	GetCharacterMovement()->Velocity = FVector(0);
+
+	OnCharacterDied.Broadcast(this);
+
+	if(AbilitySystemComponent.IsValid())
+	{
+		AbilitySystemComponent->CancelAllAbilities();
+
+		FGameplayTagContainer EffectTagsToRemove;
+		EffectTagsToRemove.AddTag(EffectRemoveOnDeathTag);
+		int32 NumEffectsRemoved = AbilitySystemComponent->RemoveActiveEffectsWithTags(EffectTagsToRemove);
+
+		AbilitySystemComponent->AddLooseGameplayTag(DeadTag);
+	}
+
+	FinishDying();
+}
+
+void ABot::FinishDying()
+{
+	Destroy();
+}
+
+// Called when the game starts or when spawned
+void ABot::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void ABot::AddCharacterAbilities()
@@ -137,67 +187,10 @@ void ABot::AddStartupEffects()
 	AbilitySystemComponent->bStartupEffectsApplied = true;
 }
 
-float ABot::GetHealth() const
-{
-	if (BotAttributeSet.IsValid())
-	{
-		return BotAttributeSet->GetHealth();
-	}
-
-	return 0.0f;
-}
-
-float ABot::GetMaxHealth() const
-{
-	if (BotAttributeSet.IsValid())
-	{
-		return BotAttributeSet->GetMaxHealth();
-	}
-
-	return 0.0f;
-}
-
-void ABot::Die()
-{
-	RemoveCharacterAbilities();
-
-	GetCapsuleComponent()->SetCollisionEnabled((ECollisionEnabled::NoCollision));
-	GetCharacterMovement()->GravityScale = 0;
-	GetCharacterMovement()->Velocity = FVector(0);
-
-	OnCharacterDied.Broadcast(this);
-
-	if(AbilitySystemComponent.IsValid())
-	{
-		AbilitySystemComponent->CancelAllAbilities();
-
-		FGameplayTagContainer EffectTagsToRemove;
-		EffectTagsToRemove.AddTag(EffectRemoveOnDeathTag);
-		int32 NumEffectsRemoved = AbilitySystemComponent->RemoveActiveEffectsWithTags(EffectTagsToRemove);
-
-		AbilitySystemComponent->AddLooseGameplayTag(DeadTag);
-	}
-
-	FinishDying();
-}
-
-void ABot::FinishDying()
-{
-	Destroy();
-}
-
 void ABot::SetHealth(float Health)
 {
 	if (BotAttributeSet.IsValid())
 	{
 		BotAttributeSet->SetHealth(Health);
-	}
-}
-
-void ABot::SetMaxHealth(float MaxHealth)
-{
-	if (BotAttributeSet.IsValid())
-	{
-		BotAttributeSet->SetMaxHealth(MaxHealth);
 	}
 }

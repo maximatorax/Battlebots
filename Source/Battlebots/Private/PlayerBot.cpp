@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "BBAbilitySystemComponent.h"
+#include "BBPlayerController.h"
 #include "Battlebots/BattlebotsGameModeBase.h"
 #include "Components/CapsuleComponent.h"
 
@@ -48,6 +49,8 @@ APlayerBot::APlayerBot()
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetMesh()->SetCollisionProfileName(FName("NoCollision"));
+
+	DeadTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
 }
 
 // Called when the game starts or when spawned
@@ -57,6 +60,11 @@ void APlayerBot::BeginPlay()
 
 	StartingCameraArmLength = SpringArmComp->TargetArmLength;
 	StartingCameraLocation = SpringArmComp->GetRelativeLocation();
+}
+
+void APlayerBot::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
 }
 
 // Called to bind functionality to input
@@ -109,6 +117,9 @@ void APlayerBot::PossessedBy(AController* NewController)
 
 
 		// Respawn specific things that won't affect first possession.
+		
+		// Forcibly set the DeadTag count to 0
+		AbilitySystemComponent->SetTagMapCount(DeadTag, 0);
 
 		// Set Health/Mana/Stamina to their max. This is only necessary for *Respawn*.
 		SetHealth(GetMaxHealth());
@@ -119,6 +130,12 @@ void APlayerBot::PossessedBy(AController* NewController)
 		AddStartupEffects();
 
 		AddCharacterAbilities();
+
+		ABBPlayerController* PC = Cast<ABBPlayerController>(GetController());
+		if (PC)
+		{
+			PC->CreateHUD();
+		}
 	}
 }
 
@@ -166,6 +183,17 @@ void APlayerBot::OnRep_PlayerState()
 		// If we handle players disconnecting and rejoining in the future, we'll have to change this so that posession from rejoining doesn't reset attributes.
 		// For now assume possession = spawn/respawn.
 		InitializeAttributes();
+		
+		ABBPlayerController* PC = Cast<ABBPlayerController>(GetController());
+		if (PC)
+		{
+			PC->CreateHUD();
+		}
+
+		// Respawn specific things that won't affect first possession.
+
+		// Forcibly set the DeadTag count to 0
+		AbilitySystemComponent->SetTagMapCount(DeadTag, 0);
 
 		// Set Health/Mana/Stamina to their max. This is only necessary for *Respawn*.
 		SetHealth(GetMaxHealth());

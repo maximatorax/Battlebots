@@ -5,6 +5,7 @@
 
 #include "BBPlayerState.h"
 #include "AbilitySystemComponent.h"
+#include "BBDamageTextWidgetComponent.h"
 #include "BBHUDWidget.h"
 
 void ABBPlayerController::CreateHUD()
@@ -46,6 +47,22 @@ void ABBPlayerController::CreateHUD()
 UBBHUDWidget* ABBPlayerController::GetHUD()
 {
 	return UIHUDWidget;
+}
+
+void ABBPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ABot* TargetCharacter)
+{
+	if (TargetCharacter && DamageNumberClass)
+	{
+		UBBDamageTextWidgetComponent* DamageText = NewObject<UBBDamageTextWidgetComponent>(TargetCharacter, DamageNumberClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
+}
+
+bool ABBPlayerController::ShowDamageNumber_Validate(float DamageAmount, ABot* TargetCharacter)
+{
+	return true;
 }
 
 void ABBPlayerController::SetRespawnCountdown_Implementation(float RespawnTimeRemaining)
