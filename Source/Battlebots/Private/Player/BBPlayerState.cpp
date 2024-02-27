@@ -1,14 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BBPlayerState.h"
+
+#include "Player/BBPlayerState.h"
 #include "AbilitySystemComponent.h"
-#include "BBAbilitySystemComponent.h"
-#include "BBBotAttributeSet.h"
-#include "BBHUDWidget.h"
-#include "BBPlayerController.h"
-#include "PlayerBot.h"
-#include "Util/ColorConstants.h"
+#include "AbilitySystem/BBAbilitySystemComponent.h"
+#include "AbilitySystem/Attributes/BBBotAttributeSet.h"
+#include "UI/BBHUDWidget.h"
+#include "Player/BBPlayerController.h"
+#include "Characters/Player/PlayerBot.h"
 
 ABBPlayerState::ABBPlayerState()
 {
@@ -57,6 +57,16 @@ float ABBPlayerState::GetHealth() const
 float ABBPlayerState::GetMaxHealth() const
 {
 	return PlayerAttributeSet->GetMaxHealth();
+}
+
+float ABBPlayerState::GetArmor() const
+{
+	return PlayerAttributeSet->GetArmor();
+}
+
+float ABBPlayerState::GetMoveSpeed() const
+{
+	return PlayerAttributeSet->GetMoveSpeed();
 }
 
 void ABBPlayerState::BeginPlay()

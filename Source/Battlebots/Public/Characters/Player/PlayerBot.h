@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Bot.h"
 #include "Camera/CameraComponent.h"
+#include "Characters/Bot.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "PlayerBot.generated.h"
 

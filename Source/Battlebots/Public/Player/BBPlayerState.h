@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "AttributeSet.h"
 #include "GameplayEffectTypes.h"
 #include "GameFramework/PlayerState.h"
 #include "BBPlayerState.generated.h"
@@ -39,6 +38,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Battlebot|PlayerState|Attributes")
 	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Battlebot|PlayerState|Attributes")
+	float GetArmor() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Battlebot|PlayerState|Attributes")
+	float GetMoveSpeed() const;
 
 
 protected:

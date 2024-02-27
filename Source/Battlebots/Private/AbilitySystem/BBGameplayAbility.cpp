@@ -1,9 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BBGameplayAbility.h"
+#include "AbilitySystem/BBGameplayAbility.h"
 #include "AbilitySystemComponent.h"
-#include "GameplayTagContainer.h"
 
 
 UBBGameplayAbility::UBBGameplayAbility()

@@ -1,12 +1,13 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PlayerBot.h"
-#include "BBPlayerState.h"
+
+#include "Characters/Player/PlayerBot.h"
+#include "Player/BBPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "BBAbilitySystemComponent.h"
-#include "BBPlayerController.h"
+#include "AbilitySystem/BBAbilitySystemComponent.h"
+#include "Player/BBPlayerController.h"
 #include "Battlebots/BattlebotsGameModeBase.h"
 #include "Components/CapsuleComponent.h"
 

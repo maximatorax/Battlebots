@@ -1,10 +1,11 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Bot.h"
-#include "BBAbilitySystemComponent.h"
-#include "BBGameplayAbility.h"
-#include "BBGameplayEffect.h"
+#include "Characters/Bot.h"
+
+#include "AbilitySystem/BBAbilitySystemComponent.h"
+#include "AbilitySystem/BBGameplayAbility.h"
+#include "AbilitySystem/BBGameplayEffect.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 

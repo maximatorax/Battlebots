@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "Bot.h"
+#include "Characters/Bot.h"
 #include "BBPlayerController.generated.h"
 
 /**

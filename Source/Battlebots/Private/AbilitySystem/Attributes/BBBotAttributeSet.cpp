@@ -1,11 +1,10 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BBBotAttributeSet.h"
-
-#include "BBGameplayEffect.h"
-#include "BBPlayerController.h"
-#include "Bot.h"
+#include "AbilitySystem/Attributes/BBBotAttributeSet.h"
+#include "AbilitySystem/BBGameplayEffect.h"
+#include "Player/BBPlayerController.h"
+#include "Characters/Bot.h"
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
@@ -24,6 +23,11 @@ void UBBBotAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute,
 	// GetMaxHealthAttribute comes from the Macros defined at the top of the header
 	{
 		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());
+	}
+	else if (Attribute == GetMoveSpeedAttribute())
+	{
+		// Cannot slow less than 150 units/s and cannot boost more than 1000 units/s
+		NewValue = FMath::Clamp<float>(NewValue, 150, 1000);
 	}
 }
 
@@ -171,6 +175,8 @@ void UBBBotAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UBBBotAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UBBBotAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UBBBotAttributeSet, Armor, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UBBBotAttributeSet, MoveSpeed, COND_None, REPNOTIFY_Always);
 }
 
 void UBBBotAttributeSet::AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute,
@@ -199,4 +205,14 @@ void UBBBotAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
 void UBBBotAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, MaxHealth, OldMaxHealth);
+}
+
+void UBBBotAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, Armor, OldArmor);
+}
+
+void UBBBotAttributeSet::OnRep_MoveSpeed(const FGameplayAttributeData& OldMoveSpeed)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBBBotAttributeSet, MoveSpeed, OldMoveSpeed);
 }

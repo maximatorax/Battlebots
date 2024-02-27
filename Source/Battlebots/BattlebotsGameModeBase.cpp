@@ -3,8 +3,8 @@
 
 #include "BattlebotsGameModeBase.h"
 
-#include "BBPlayerController.h"
-#include "PlayerBot.h"
+#include "Player/BBPlayerController.h"
+#include "Characters/Player/PlayerBot.h"
 #include "GameFramework/SpectatorPawn.h"
 
 ABattlebotsGameModeBase::ABattlebotsGameModeBase()

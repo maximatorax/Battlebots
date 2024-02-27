@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BBPlayerController.h"
 
-#include "BBPlayerState.h"
+#include "Player/BBPlayerController.h"
+#include "Player/BBPlayerState.h"
 #include "AbilitySystemComponent.h"
-#include "BBDamageTextWidgetComponent.h"
-#include "BBHUDWidget.h"
+#include "UI/BBDamageTextWidgetComponent.h"
+#include "UI/BBHUDWidget.h"
 
 void ABBPlayerController::CreateHUD()
 {
