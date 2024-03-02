@@ -16,7 +16,7 @@ UCLASS()
 class BATTLEBOTS_API ABot : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
-	
+
 public:
 	// Sets default values for this pawn's properties
 	ABot();
@@ -42,25 +42,33 @@ public:
 	/**
 	* Getters for attributes from BBBotAttributeSet
 	**/
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Battlebot|Bot|Attributes")
 	float GetHealth() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Battlebot|Bot|Attributes")
 	float GetMaxHealth() const;
 
+	//Gets the Current value of MoveSpeed
+	UFUNCTION(BlueprintCallable, Category="Battlebot|Bot|Attributes")
+	float GetMoveSpeed() const;
+
+	// Gets the Base value of MoveSpeed
+	UFUNCTION(BlueprintCallable, Category = "Battlebot|Bot|Attributes")
+	float GetMoveSpeedBaseValue() const;
+
 	virtual void Die();
 
 	UFUNCTION(BlueprintCallable, Category="Battlebot|Bot")
 	virtual void FinishDying();
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	TWeakObjectPtr<class UBBAbilitySystemComponent> AbilitySystemComponent;
 	TWeakObjectPtr<UBBBotAttributeSet> BotAttributeSet;
-	
+
 	FGameplayTag DeadTag;
 	FGameplayTag EffectRemoveOnDeathTag;
 
@@ -96,5 +104,4 @@ protected:
 	* These change the Attribute's Base Value.
 	*/
 	virtual void SetHealth(float Health);
-	
 };

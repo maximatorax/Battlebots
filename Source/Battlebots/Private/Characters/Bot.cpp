@@ -20,8 +20,6 @@ ABot::ABot()
 
 	bAlwaysRelevant = true;
 
-	BotAttributeSet = CreateDefaultSubobject<UBBBotAttributeSet>(TEXT("Attributes"));
-
 	DeadTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
 	EffectRemoveOnDeathTag = FGameplayTag::RequestGameplayTag(FName("Effect.RemoveOnDeath"));
 }
@@ -81,6 +79,26 @@ float ABot::GetMaxHealth() const
 	if (BotAttributeSet.IsValid())
 	{
 		return BotAttributeSet->GetMaxHealth();
+	}
+
+	return 0.0f;
+}
+
+float ABot::GetMoveSpeed() const
+{
+	if(BotAttributeSet.IsValid())
+	{
+		return BotAttributeSet->GetMoveSpeed();
+	}
+
+	return 0.0f;
+}
+
+float ABot::GetMoveSpeedBaseValue() const
+{
+	if (BotAttributeSet.IsValid())
+	{
+		return BotAttributeSet->GetMoveSpeedAttribute().GetGameplayAttributeData(BotAttributeSet.Get())->GetBaseValue();
 	}
 
 	return 0.0f;

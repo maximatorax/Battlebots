@@ -8,6 +8,7 @@
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
+#include "GameplayEffectAggregatorLibrary.h"
 
 UBBBotAttributeSet::UBBBotAttributeSet()
 {
@@ -155,6 +156,19 @@ void UBBBotAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 						UBBGameplayEffect* GEBounty = NewObject<UBBGameplayEffect>(GetTransientPackage(), FName(TEXT("Bounty")));
 						GEBounty->DurationPolicy = EGameplayEffectDurationType::Instant;
 
+						int32 Index = GEBounty->Modifiers.Num();
+						GEBounty->Modifiers.SetNum(Index + 2);
+
+						FGameplayModifierInfo& InfoXP = GEBounty->Modifiers[Index];
+						InfoXP.ModifierMagnitude = FScalableFloat(1);
+						InfoXP.ModifierOp = EGameplayModOp::Additive;
+						//InfoXP.Attribute = UBBBotAttributeSet::GetXPAttribute();
+
+						FGameplayModifierInfo& InfoGold = GEBounty->Modifiers[Index + 1];
+						InfoGold.ModifierMagnitude = FScalableFloat(1);
+						InfoGold.ModifierOp = EGameplayModOp::Additive;
+						//InfoGold.Attribute = UBBBotAttributeSet::GetGoldAttribute();
+
 						Source->ApplyGameplayEffectToSelf(GEBounty, 1.0f, Source->MakeEffectContext());
 					}
 				}
@@ -167,6 +181,23 @@ void UBBBotAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 		// Health loss should go through Damage.
 		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
 	}// Health
+}
+
+void UBBBotAttributeSet::OnAttributeAggregatorCreated(const FGameplayAttribute& Attribute,
+	FAggregator* NewAggregator) const
+{
+	Super::OnAttributeAggregatorCreated(Attribute, NewAggregator);
+
+	if(!NewAggregator)
+	{
+		return;
+	}
+
+	//We only apply the most negative Modifier on MoveSpeed but allow all positive ones
+	if(Attribute == GetMoveSpeedAttribute())
+	{
+		NewAggregator->EvaluationMetaData = &FAggregatorEvaluateMetaDataLibrary::MostNegativeMod_AllPositiveMods;
+	}
 }
 
 void UBBBotAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

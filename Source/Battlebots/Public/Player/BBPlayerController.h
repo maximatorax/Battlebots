@@ -18,7 +18,7 @@ class BATTLEBOTS_API ABBPlayerController : public APlayerController
 public:
 	void CreateHUD();
 	
-	UPROPERTY(EditAnywhere, Category = "Batlebot|UI")
+	UPROPERTY(EditAnywhere, Category = "Battlebot|UI")
 	TSubclassOf<class UBBDamageTextWidgetComponent> DamageNumberClass;
 
 	class UBBHUDWidget* GetHUD();
