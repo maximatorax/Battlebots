@@ -39,7 +39,15 @@
 			"Enabled": true
 		},
 		{
-			"Name": "SteamSockets",
+			"Name": "OnlineFramework",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineServicesNull",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineServicesOSSAdapter",
 			"Enabled": true
 		}
 	]

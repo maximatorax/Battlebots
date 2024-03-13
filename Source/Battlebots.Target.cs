@@ -9,7 +9,6 @@ public class BattlebotsTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		bUsesSteam = true;
 		ExtraModuleNames.Add("Battlebots");
 	}
 }
