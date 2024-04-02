@@ -8,24 +8,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="831df0d7-70f8-4838-b59f-a61070d918ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Abilities/GE_Default.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBGameplayAbility.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBGameplayAbility.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBSessionSubsystem.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBSessionSubsystem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Battlebots.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Abilities/GA_TestAbility.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Abilities/GA_TestAbility.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Abilities/GE_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Abilities/GE_Test.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_BBBotAttributeSet.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_BotPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_BotPlayer.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Battlebots.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Battlebots.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Private/BBBotAttributeSet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBBotAttributeSet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Private/BBPlayerState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Private/BBPlayerState.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Private/Bot.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Private/PlayerBot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Private/PlayerBot.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/BBAbilitySystemComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBAbilitySystemComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/BBBotAttributeSet.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBBotAttributeSet.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/BBPlayerState.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/Bot.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Public/PlayerBot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Public/PlayerBot.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Game/GI_BattlebotsGI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Game/GI_BattlebotsGI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Game/GM_BattlebotsGM.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Game/GM_BattlebotsGM.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Game/GM_MainMenuGM.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Game/GM_MainMenuGM.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Game/GS_BattlebotsGS.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Player/BP_BBPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Player/BP_BBPlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Player/BP_BBPlayerState.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Player/BP_BBPlayerState.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Player/BP_BotPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Player/BP_BotPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Gyms/GYM_PlayerController.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Gyms/GYM_PlayerController.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Lobby.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Lobby.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/Battlebots.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Battlebots/Battlebots.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameInstance.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameInstance.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameSession.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameSession.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameState.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Battlebots/BattlebotsGameState.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,6 +174,10 @@
       <workItem from="1710296925173" duration="999000" />
       <workItem from="1710360491650" duration="7027000" />
       <workItem from="1710370312648" duration="1866000" />
+      <workItem from="1710891488514" duration="8000" />
+      <workItem from="1710895017991" duration="102000" />
+      <workItem from="1711052007162" duration="3265000" />
+      <workItem from="1711055365906" duration="2203000" />
     </task>
     <servers />
   </component>

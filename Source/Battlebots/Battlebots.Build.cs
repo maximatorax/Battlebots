@@ -10,12 +10,13 @@ public class Battlebots : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", "CoreUObject", "Engine", "InputCore", "GameplayAbilities", "GameplayTags", "GameplayTasks", "UMG"
+			"Core", "CoreUObject", "Engine", "InputCore", "GameplayAbilities", "GameplayTags", "GameplayTasks", "UMG",
+			"OnlineSubsystem", "OnlineSubsystemUtils"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
-			"OnlineSubsystem", "OnlineSubsystemSteam", "SteamSockets", "CoreOnline", "OnlineSubsystemNull"
+			"OnlineSubsystemSteam", "SteamSockets", "CoreOnline", "OnlineSubsystemNull"
 		});
 	}
 }
