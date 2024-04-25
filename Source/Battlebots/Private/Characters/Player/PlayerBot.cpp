@@ -74,11 +74,6 @@ void APlayerBot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-UAbilitySystemComponent* APlayerBot::GetAbilitySystemComponent() const
-{
-	return GetPlayerState<ABBPlayerState>()->GetAbilitySystemComponent();
-}
-
 void APlayerBot::FinishDying()
 {
 	if (GetLocalRole() == ROLE_Authority)
