@@ -28,6 +28,7 @@ public:
 	
 	void CreateSession(int32 NumPublicConnections, bool IsLANMatch);
 	void UpdateSession();
+	UFUNCTION(BlueprintCallable, Category="Online|Session")
 	void StartSession();
 	void EndSession();
 	void DestroySession();

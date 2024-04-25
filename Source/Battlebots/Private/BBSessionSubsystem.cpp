@@ -2,7 +2,10 @@
 
 
 #include "BBSessionSubsystem.h"
+
+#include "OnlineSessionSettings.h"
 #include "OnlineSubsystemUtils.h"
+#include "Online/OnlineSessionNames.h"
 
 
 UBBSessionSubsystem::UBBSessionSubsystem() : CreateSessionCompleteDelegate(
