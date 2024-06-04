@@ -10,7 +10,7 @@
 ABattlebotsGameModeBase::ABattlebotsGameModeBase()
 {
 	RespawnDelay = 5.0f;
-	
+	bUseSeamlessTravel = true;
 	PlayerBot = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/Blueprints/Player/BP_BotPlayer.BP_BotPlayer_C"));
 
 	if(!PlayerBot)
