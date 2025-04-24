@@ -34,8 +34,6 @@ public:
 	FVector GetStartingCameraLocation();
 
 	USkeletalMeshComponent* GetSkeletalMeshComp() const;
-	
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	virtual void FinishDying() override;
 	

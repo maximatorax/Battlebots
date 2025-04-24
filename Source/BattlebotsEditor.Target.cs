@@ -9,6 +9,7 @@ public class BattlebotsEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
+		bUsesSteam = true;
 		ExtraModuleNames.Add("Battlebots");
 	}
 }
